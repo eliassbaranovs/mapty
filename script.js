@@ -11,7 +11,7 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
-//Geolocation API
+//Geolocation API and Leaflet map API
 if (navigator.geolocation)
   navigator.geolocation.getCurrentPosition(
     function (position) {
