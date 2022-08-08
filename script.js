@@ -20,6 +20,8 @@ if (navigator.geolocation)
       const coords = [latitude, longitude];
       const map = L.map('map').setView(coords, 18);
 
+      //Displaying map with Leaflet library
+
       L.tileLayer('https://{s}.tile.openstreetmap.fr/hot//{z}/{x}/{y}.png', {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -34,5 +36,3 @@ if (navigator.geolocation)
       console.log('Location not found');
     }
   );
-
-//Displaying map with Leaflet library
