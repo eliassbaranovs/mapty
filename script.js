@@ -179,7 +179,7 @@ class App {
         })
       )
       .setPopupContent(
-        `You did ${workout.type} for ${workout.duration} minutes`
+        `<b>You did ${workout.type} for ${workout.duration} minutes!`
       )
       .openPopup();
   }
