@@ -1,3 +1,5 @@
-# mapty
+# <h1>Mapty project</h1>
 
-# This project is made following udemy course.
+ <p>This project was made by following course from Udemy.<br></p>
+
+ Project is hosted at <a href="https://superlative-queijadas-9e8fff.netlify.app/">Mapty</a>
