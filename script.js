@@ -60,8 +60,6 @@ class Cycling extends Workout {
   }
 }
 
-//Methods
-
 //App class
 class App {
   //Private fields
@@ -70,8 +68,10 @@ class App {
   #mapEvent;
   #workouts = [];
   constructor() {
+    //Get users position
     this._getPosition();
-
+    //Get data from local storage
+    this._getlocalStorage();
     //Attach event listeners to DOM elements
     //Form control
     form.addEventListener('submit', this._newWorkout.bind(this));
@@ -100,18 +100,18 @@ class App {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
     const coords = [latitude, longitude];
-
     this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
-
     //Displaying map with Leaflet library
-
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot//{z}/{x}/{y}.png', {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
-
     //Handling clicks on map
     this.#map.on('click', this._showForm.bind(this));
+    //Render marker from local storage
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapE) {
@@ -186,6 +186,8 @@ class App {
       inputElevation.value =
         '';
 
+    //Set local storage on all workouts
+    this._setLocalStorage();
     //Display marker on map
     this._renderWorkoutMarker(workout);
   }
@@ -251,7 +253,7 @@ class App {
             </div>
             <div class='workout__details'>
               <span class='workout__icon'>⛰</span>
-              <span class='workout__value'>${workout.elevation}</span>
+              <span class='workout__value'>${workout.elevationGain}</span>
               <span class='workout__unit'>m</span>
             </div>
           </li>
@@ -274,6 +276,21 @@ class App {
         duration: 1,
       },
     });
+  }
+  //Store and retrieve data in local storage
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+  _getlocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+    if (!data) return;
+    this.#workouts = data;
+    this.#workouts.forEach(work => this._renderWorkout(work));
+  }
+  //Reset, run from console--- app.reset();
+  reset() {
+    localStorage.removeItem('workouts');
+    location.reload();
   }
 }
 
