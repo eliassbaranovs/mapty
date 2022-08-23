@@ -66,6 +66,7 @@ class Cycling extends Workout {
 class App {
   //Private fields
   #map;
+  #mapZoomLevel = 18;
   #mapEvent;
   #workouts = [];
   constructor() {
@@ -77,6 +78,9 @@ class App {
 
     //Running/Cycling switching
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
+
+    //Move map center to clicked excercise
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   //Methods
@@ -97,7 +101,7 @@ class App {
     const { longitude } = position.coords;
     const coords = [latitude, longitude];
 
-    this.#map = L.map('map').setView(coords, 18);
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
     //Displaying map with Leaflet library
 
@@ -255,6 +259,21 @@ class App {
     }
 
     form.insertAdjacentHTML(`afterend`, html);
+  }
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest('.workout');
+
+    if (!workoutEl) return;
+
+    const workout = this.#workouts.find(
+      work => work.id === workoutEl.dataset.id
+    );
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
   }
 }
 
